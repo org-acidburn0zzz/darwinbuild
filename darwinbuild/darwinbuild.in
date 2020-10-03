@@ -681,6 +681,11 @@ if [ ! -f "$BuildRoot/Developer/.CreatedPureDarwinSDK" ]; then
 	echo "*** Creating fresh PureDarwin SDK, this may take a while ..."
 	CreatePureDarwinSDK "$BuildRoot/Developer/SDKs/PureDarwin.sdk"
 
+	rmdir "$BuildRoot/usr/local/darwinbuild/receipts" || :
+	pushd "$BuildRoot/usr/local/darwinbuild" > /dev/null
+	ln -s ../../../Developer/SDKs/PureDarwin.sdk/usr/local/darwinbuild/receipts
+	popd > /dev/null
+
 	# This is necessary to squelch an Xcode warning.
 	pushd "$BuildRoot/Developer/SDKs" > /dev/null
 	ln -s PureDarwin.sdk MacOSX.sdk
