@@ -738,6 +738,10 @@ EOF
 ###
 build_string="$build_string \"SRCROOT=$SRCROOT\" \"OBJROOT=$OBJROOT\" \"SYMROOT=$SYMROOT\" \"DSTROOT=$DSTROOT\""
 
+if [ "$buildtool" == "xcodebuild" ]; then
+	build_string="$build_string SDKROOT=puredarwin1.0 ADDITIONAL_SDKS=$BuildRoot/Developer/SDKs/MacOSX.sdk"
+fi
+
 XREF_ENV=$($DARWINXREF environment $projnam)
 OLDIFS="$IFS"
 IFS=$'\n'
