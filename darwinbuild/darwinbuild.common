@@ -558,7 +558,7 @@ function CreatePureDarwinSDK() {
 	local APPLE_SDK=$(xcrun -sdk macosx --show-sdk-path)
 
 	mkdir -p $OUR_SDK
-	cp /usr/local/share/darwinbuild/PDSDKSettings.plist $OUR_SDK
+	cp /usr/local/share/darwinbuild/PDSDKSettings.plist $OUR_SDK/SDKSettings.plist
 
 	mkdir -p $OUR_SDK/usr/include
 	pushd $APPLE_SDK/usr/include > /dev/null
