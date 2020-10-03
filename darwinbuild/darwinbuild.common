@@ -575,6 +575,7 @@ function CreatePureDarwinSDK() {
 	find . -name '*.modulemap' -print >> /tmp/sdk-usr-include.$$.txt
 	popd > /dev/null
 
+	OLD_IFS=$IFS
 	IFS='
 '
 	while read line; do
@@ -620,4 +621,5 @@ function CreatePureDarwinSDK() {
 	rm -f /tmp.sdk-sys.$$.txt
 
 	popd > /dev/null
+	IFS=$OLD_IFS
 }
