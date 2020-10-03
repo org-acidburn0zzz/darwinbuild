@@ -543,19 +543,22 @@ function _CreatePureDarwinSDKFile() {
 	local APPLE_FILE=$APPLE_SDK/$2
 	local OUR_FILE=$OUR_SDK/$2
 
+	local OUR_FILE_DIR=$(dirname $OUR_FILE)
+	local OUR_FILE_BASE=$(basename $OUR_FILE)
+
 	if [ -e "$OUR_FILE" ]; then
 		return 0
 	fi
 
-	mkdir -p "$(dirname $OUR_FILE)"
-	pushd "$(dirname $OUR_FILE)" > /dev/null
+	mkdir -p "$OUR_FILE_DIR"
+	pushd "$OUR_FILE_DIR" > /dev/null
 
-	if [ -L $(basename $OUR_FILE) ]; then
+	if [ -L $OUR_FILE_BASE ]; then
 		# Delete any old symlinks, so we don't follow them.
-		rm -f $(basename $OUR_FILE)
+		rm -f $OUR_FILE_BASE
 	fi
 
-	ln -s $APPLE_FILE $(basename $OUR_FILE)
+	ln -s $APPLE_FILE $OUR_FILE_BASE
 	popd > /dev/null
 }
 
