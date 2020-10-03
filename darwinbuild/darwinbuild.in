@@ -501,7 +501,7 @@ if [ ! -f "$BuildRoot/Developer/.CreatedPureDarwinSDK" ]; then
 
 	# This is necessary to squelch an Xcode warning.
 	pushd "$BuildRoot/Developer/SDKs" > /dev/null
-	ln -s PureDarwin.sdk MacOSX.sdk
+	ln -sfh PureDarwin.sdk MacOSX.sdk
 	popd > /dev/null
 
 	touch "$BuildRoot/Developer/.CreatedPureDarwinSDK"
