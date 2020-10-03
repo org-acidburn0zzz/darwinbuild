@@ -530,10 +530,8 @@ function WriteDarwinbuildXcodeConfig() {
 	local SRCROOT="$2"
 
 	cat <<-EOF > $SRCROOT/darwinbuild.xcconfig
-DEPROOT = $BuildRoot
-SYSTEM_HEADER_SEARCH_PATHS = \$(DEPROOT)/System/Library/Frameworks/System.framework/PrivateHeaders \$(DEPROOT)/usr/include \$(DEPROOT)/usr/local/include
-FRAMEWORK_SEARCH_PATHS = \$(DEPROOT)/System/Library/Frameworks \$(DEPROOT)/System/Library/PrivateFrameworks
-LIBRARY_SEARCH_PATHS = \$(DEPROOT)/usr/local/lib \$(DEPROOT)/usr/lib
+SDKROOT = $BuildRoot/Developer/SDKs/MacOSX.sdk
+ADDITIONAL_SDKS = $BuildRoot/Developer/SDKs/MacOSX.sdk
 EOF
 }
 
