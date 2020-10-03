@@ -530,8 +530,9 @@ function WriteDarwinbuildXcodeConfig() {
 	local SRCROOT="$2"
 
 	cat <<-EOF > $SRCROOT/darwinbuild.xcconfig
-SDKROOT = $BuildRoot/Developer/SDKs/MacOSX.sdk
-ADDITIONAL_SDKS = $BuildRoot/Developer/SDKs/MacOSX.sdk
+DEPROOT = $BuildRoot/Developer/SDKs/MacOSX.sdk
+SDKROOT = \$(DEPROOT)
+ADDITIONAL_SDKS = \$(DEPROOT)
 EOF
 }
 

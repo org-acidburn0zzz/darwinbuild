@@ -654,7 +654,7 @@ elif [ "$target" != "" ]; then
 fi
 
 if [ "$buildtool" == "make" ]; then
-	build_string="$build_string DEPROOT=$BuildRoot"
+	build_string="$build_string DEPROOT=$BuildRoot/Developer/SDKs/PureDarwin.sdk"
 fi
 
 #
