@@ -680,6 +680,21 @@ if [ "$buildtool" == "xcodebuild" ]; then
 fi
 
 ###
+### Create the PureDarwin Xcode SDK.
+###
+mkdir -p $BuildRoot/Developer/SDKs
+if [ ! -f "$BuildRoot/Developer/PureDarwinSDK.stamp" ]; then
+	CreatePureDarwinSDK "$BuildRoot/Developer/SDKs/PureDarwin.sdk"
+
+	# This is necessary to squelch an Xcode warning.
+	pushd "$BuildRoot/Developer/SDKs" > /dev/null
+	ln -s PureDarwin.sdk MacOSX.sdk
+	popd > /dev/null
+
+	touch "$BuildRoot/Developer/CreatedPureDarwinSDK.stamp"
+fi
+
+###
 ### Write out the xcconfig file to override the Xcode SDK.
 ###
 
