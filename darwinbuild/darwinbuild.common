@@ -578,7 +578,7 @@ function CreatePureDarwinSDK() {
 	find . -name '*.tbd' -print > /tmp/sdk-usr-lib.$$.txt
 	echo ${APPLE_SDK}/usr/lib/swift >> /tmp/sdk-usr-lib.$$.txt
 	while read line; do
-		_CreatePureDarwinSDKFile $OUR_SDK "usr/lib/$base"
+		_CreatePureDarwinSDKFile $OUR_SDK "usr/lib/$line"
 	done < /tmp/sdk-usr-lib.$$.txt
 	rm -f /tmp/sdk-usr-lib.$$.txt
 	popd > /dev/null
