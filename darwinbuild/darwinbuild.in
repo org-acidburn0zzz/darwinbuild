@@ -749,9 +749,6 @@ for X in \
 done
 IFS="$OLDIFS"
 
-export RC_BuildRoot=$BuildRoot
-build_string="$build_string \"RC_BuildRoot=$BuildRoot\""
-
 cat <<-EOF >> $SCRIPT
 	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
 	echo 'Environment variables:'
