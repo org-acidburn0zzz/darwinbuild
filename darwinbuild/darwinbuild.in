@@ -474,13 +474,7 @@ if [ "$nosource" != "YES" ]; then
 	fi
 fi
 
-###
-### We do our building in private/var/tmp since it's
-### likely to be out of the way of our dependencies
-### and is supposed to be writable by everyone.
-###
-
-vartmp="private/var/tmp"
+vartmp="BuildCache"
 mkdir -p "$BuildRoot/$vartmp"
 chmod 1777 "$BuildRoot/$vartmp"
 
