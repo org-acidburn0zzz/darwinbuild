@@ -583,7 +583,7 @@ function CreatePureDarwinSDK() {
 	popd > /dev/null
 
 	mkdir -p $OUR_SDK/System/Library/Frameworks
-	pushd System/Library/Frameworks > /dev/null
+	pushd $APPLE_SDK/System/Library/Frameworks > /dev/null
 
 	# All the egrep -v's are here to filter out nested frameworks.
 	# This list needs to be kept in sync with the Apple SDK.
