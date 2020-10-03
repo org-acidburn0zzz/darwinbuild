@@ -537,11 +537,11 @@ EOF
 }
 
 function _CreatePureDarwinSDKFile() {
-	OUR_SDK=$1
-	APPLE_SDK=$(xcrun -sdk macosx --show-sdk-path)
+	local OUR_SDK=$1
+	local APPLE_SDK=$(xcrun -sdk macosx --show-sdk-path)
 
-	APPLE_FILE=$APPLE_SDK/$2
-	OUR_FILE=$OUR_SDK/$2
+	local APPLE_FILE=$APPLE_SDK/$2
+	local OUR_FILE=$OUR_SDK/$2
 
 	if [ -e "$OUR_FILE" ]; then
 		return 0
