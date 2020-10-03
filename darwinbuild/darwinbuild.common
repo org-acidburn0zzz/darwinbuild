@@ -536,3 +536,79 @@ FRAMEWORK_SEARCH_PATHS = \$(DEPROOT)/System/Library/Frameworks \$(DEPROOT)/Syste
 LIBRARY_SEARCH_PATHS = \$(DEPROOT)/usr/local/lib \$(DEPROOT)/usr/lib
 EOF
 }
+
+function _CreatePureDarwinSDKFile() {
+	OUR_SDK=$1
+	APPLE_SDK=$(xcrun -sdk macosx --show-sdk-path)
+
+	APPLE_FILE=$APPLE_SDK/$2
+	OUR_FILE=$OUR_SDK/$2
+
+	if [ -e "$OUR_FILE" ]; then
+		return 0
+	fi
+
+	mkdir -p "$(dirname $OUR_FILE)"
+	pushd "$(dirname $OUR_FILE)" > /dev/null
+	ln -s $APPLE_FILE $(basename $OUR_FILE)
+	popd > /dev/null
+}
+
+function CreatePureDarwinSDK() {
+	local OUR_SDK=$1
+	local APPLE_SDK=$(xcrun -sdk macosx --show-sdk-path)
+
+	mkdir -p $OUR_SDK
+	cp /usr/local/share/darwinbuild/PDSDKSettings.plist $OUR_SDK
+
+	mkdir -p $OUR_SDK/usr/include
+	pushd $APPLE_SDK/usr/include > /dev/null
+	find . -name '*.h' -or -name '*.modulemap' -print > /tmp/sdk-usr-include.$$.txt
+	popd > /dev/null
+
+	IFS='
+'
+	while read line; do
+		_CreatePureDarwinSDKFile $OUR_SDK "usr/include/$line"
+	done < /tmp/sdk-usr-include.$$.txt
+	rm -f /tmp/sdk-usr-include.$$.txt
+
+	mkdir -p $OUR_SDK/usr/lib
+	pushd $APPLE_SDK/usr/lib > /dev/null
+	find . -name '*.tbd' -print > /tmp/sdk-usr-lib.$$.txt
+	echo ${APPLE_SDK}/usr/lib/swift >> /tmp/sdk-usr-lib.$$.txt
+	while read line; do
+		_CreatePureDarwinSDKFile $OUR_SDK "usr/lib/$base"
+	done < /tmp/sdk-usr-lib.$$.txt
+	rm -f /tmp/sdk-usr-lib.$$.txt
+	popd > /dev/null
+
+	mkdir -p $OUR_SDK/System/Library/Frameworks
+	pushd System/Library/Frameworks > /dev/null
+
+	# All the egrep -v's are here to filter out nested frameworks.
+	# This list needs to be kept in sync with the Apple SDK.
+	# Always include '/Versions' at the end, since we only want
+	# to symlink the top-level framework.
+	find . -name \*.framework | \
+		egrep -v 'Accelerate\.framework/Versions' | \
+		egrep -v 'ApplicationServices\.framework/Versions' | \
+		egrep -v 'AutomaticAssessmentConfiguration\.framework/Versions' | \
+		egrep -v 'Carbon\.framework/Versions' | \
+		egrep -v 'CoreServices\.framework/Versions' | \
+		egrep -v 'IMServicePlugIn\.framework/Versions' | \
+		egrep -v 'MetalPerformanceShaders\.framework/Versions' | \
+		egrep -v 'OpenDirectory\.framework/Versions' | \
+		egrep -v 'Quartz\.framework/Versions' | \
+		egrep -v 'WebKit\.framework/Versions' \
+	> /tmp/sdk-sys.$$.txt
+
+	mkdir -p $OUR_SDK/System/Library/Frameworks
+	mkdir -p $OUR_SDK/System/Library/PrivateFrameworks
+	while read line; do
+		_CreatePureDarwinSDKFile $OUR_SDK "System/Library/Frameworks/$line"
+	done < /tmp/sdk-sys.$$.txt
+	rm -f /tmp.sdk-sys.$$.txt
+
+	popd > /dev/null
+}
