@@ -677,7 +677,8 @@ fi
 ### Create the PureDarwin Xcode SDK.
 ###
 mkdir -p $BuildRoot/Developer/SDKs
-if [ ! -f "$BuildRoot/Developer/PureDarwinSDK.stamp" ]; then
+if [ ! -f "$BuildRoot/Developer/.CreatedPureDarwinSDK" ]; then
+	echo "*** Creating fresh PureDarwin SDK, this may take a while ..."
 	CreatePureDarwinSDK "$BuildRoot/Developer/SDKs/PureDarwin.sdk"
 
 	# This is necessary to squelch an Xcode warning.
@@ -685,7 +686,7 @@ if [ ! -f "$BuildRoot/Developer/PureDarwinSDK.stamp" ]; then
 	ln -s PureDarwin.sdk MacOSX.sdk
 	popd > /dev/null
 
-	touch "$BuildRoot/Developer/CreatedPureDarwinSDK.stamp"
+	touch "$BuildRoot/Developer/.CreatedPureDarwinSDK"
 fi
 
 ###
