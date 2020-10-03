@@ -562,7 +562,8 @@ function CreatePureDarwinSDK() {
 
 	mkdir -p $OUR_SDK/usr/include
 	pushd $APPLE_SDK/usr/include > /dev/null
-	find . -name '*.h' -or -name '*.modulemap' -print > /tmp/sdk-usr-include.$$.txt
+	find . -name '*.h' -print > /tmp/sdk-usr-include.$$.txt
+	find . -name '*.modulemap' -print >> /tmp/sdk-usr-include.$$.txt
 	popd > /dev/null
 
 	IFS='
