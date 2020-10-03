@@ -591,6 +591,10 @@ function CreatePureDarwinSDK() {
 	done < /tmp/sdk-usr-lib.$$.txt
 	rm -f /tmp/sdk-usr-lib.$$.txt
 
+	# Swift requires special handling, since there are more than tbd's in there.
+	rm -rf ${OUR_SDK}/usr/lib/swift
+	ditto ${APPLE_SDK}/usr/lib/swift ${OUR_SDK}/usr/lib/swift
+
 	mkdir -p $OUR_SDK/System/Library/Frameworks
 	mkdir -p $OUR_SDK/System/Library/PrivateFrameworks
 
