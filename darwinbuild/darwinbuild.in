@@ -711,9 +711,7 @@ cat <<-EOF > $SCRIPT
 	echo '    Build action:         $action'
 	echo "    Build number:         $build"
 	echo "    Host kernel version:  \$(uname -v 2>/dev/null)"
-	echo "    cc version:           \$(gcc -v 2>&1 | grep version 2>/dev/null)"
-	# Panther cctools unlinks -o target, so don't use /dev/null
-	echo "    cctools version:      \$(as -v -o /.devnull < /dev/null 2>&1 | grep version | grep -v dwarf-version 2>/dev/null)"
+	echo "    clang version:        \$(clang -v 2>&1 | grep version 2>/dev/null)"
 EOF
 
 if [ "$buildtool" == "xcodebuild" ]; then
