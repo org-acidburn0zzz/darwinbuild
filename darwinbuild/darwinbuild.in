@@ -86,6 +86,7 @@ target=""
 configuration=""
 version=""
 codesign="-"
+use_sdkroot="true"
 
 INSTALL_XCODE="NO"
 
@@ -181,7 +182,7 @@ function PrintUsage() {
 	actions: [-headers] [-fetch] [-source] [-load] [-loadonly] [-recursive] [-group]
 	options: [-build=X] [-target=X] [-configuration=X]
 	         [-logdeps] [-nopatch] [-noload] [-codesign=<identity>]
-	         [-depsbuild=X [-depsbuild=Y]] [-nosource]
+	         [-depsbuild=X [-depsbuild=Y]] [-nosource] [-nosdk]
 
 EOF
 	exit 1
@@ -331,6 +332,8 @@ for ARG in "$@"; do
 				echo "Using default ad-hoc signing." 1>&2
 				codesign=-
 			fi
+		elif [ "${ARG}" == "-nosdk" ]; then
+			use_sdkroot="false"
 		elif [ "${ARG:0:1}" != "-" ]; then
 			projnam="$ARG"
 		else
@@ -743,7 +746,7 @@ EOF
 ###
 build_string="$build_string \"SRCROOT=$SRCROOT\" \"OBJROOT=$OBJROOT\" \"SYMROOT=$SYMROOT\" \"DSTROOT=$DSTROOT\""
 
-if [ "$buildtool" == "xcodebuild" ]; then
+if [ "$buildtool" == "xcodebuild" -a "$use_sdkroot" == "true" ]; then
 	build_string="$build_string SDKROOT=puredarwin1.0 ADDITIONAL_SDKS=$BuildRoot/Developer/SDKs/MacOSX.sdk"
 fi
 
