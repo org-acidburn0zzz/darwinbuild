@@ -538,10 +538,10 @@ EOF
 
 function _CreatePureDarwinSDKFile() {
 	local OUR_SDK=$1
-	local APPLE_SDK=$(xcrun -sdk macosx --show-sdk-path)
+	local APPLE_SDK=$2
 
-	local APPLE_FILE=$APPLE_SDK/$2
-	local OUR_FILE=$OUR_SDK/$2
+	local APPLE_FILE=$APPLE_SDK/$3
+	local OUR_FILE=$OUR_SDK/$3
 
 	local OUR_FILE_DIR=$(dirname $OUR_FILE)
 	local OUR_FILE_BASE=$(basename $OUR_FILE)
@@ -579,7 +579,7 @@ function CreatePureDarwinSDK() {
 	IFS='
 '
 	while read line; do
-		_CreatePureDarwinSDKFile $OUR_SDK "usr/include/$line"
+		_CreatePureDarwinSDKFile $OUR_SDK $APPLE_SDK "usr/include/$line"
 	done < /tmp/sdk-usr-include.$$.txt
 	rm -f /tmp/sdk-usr-include.$$.txt
 
@@ -587,7 +587,7 @@ function CreatePureDarwinSDK() {
 	pushd $APPLE_SDK/usr/lib > /dev/null
 	find . -name '*.tbd' -print > /tmp/sdk-usr-lib.$$.txt
 	while read line; do
-		_CreatePureDarwinSDKFile $OUR_SDK "usr/lib/$line"
+		_CreatePureDarwinSDKFile $OUR_SDK $APPLE_SDK "usr/lib/$line"
 	done < /tmp/sdk-usr-lib.$$.txt
 	rm -f /tmp/sdk-usr-lib.$$.txt
 
