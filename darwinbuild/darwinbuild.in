@@ -493,7 +493,7 @@ DSTROOT="$BuildRoot/$vartmp/$projnam/$project.root"
 ### Create the PureDarwin Xcode SDK.
 ###
 mkdir -p $BuildRoot/Developer/SDKs
-if [ ! -f "$BuildRoot/Developer/.CreatedPureDarwinSDK" ]; then
+if [ ! -f "$BuildRoot/Developer/.CreatedPureDarwinSDK" -a "$use_sdkroot" == "true" ]; then
 	echo "*** Creating fresh PureDarwin SDK, this may take a while ..."
 	CreatePureDarwinSDK "$BuildRoot/Developer/SDKs/PureDarwin.sdk"
 
